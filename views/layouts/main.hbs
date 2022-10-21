@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+</head>
+
+<body>
+
+    <ul>
+        <li><a href="/">Home</a></li>
+        {{#if username}}
+        <li><a href="/auth/logout">Logout</a></li>
+        {{else}}
+        <li><a href="/auth/register">Register</a></li>
+        <li><a href="/auth/login">Login</a></li>
+        {{/if}}
+    </ul>
+
+    <div>
+        {{#each errors}}
+        <p>{{this}}</p>
+        {{else}}
+        <p>No errors</p>
+        {{/each}}
+    </div>
+
+    <main>
+        {{{body}}}
+    </main>
+
+</body>
+
+</html>
