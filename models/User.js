@@ -1,9 +1,14 @@
 const { Schema, model, Types } = require('mongoose');
 
 const userSchema = new Schema({
-    email: { type: String, required: true, unique: true, match: [/^([a-zA-Z]+)@([a-zA-Z]+)\.([a-zA-Z]+)$/i, 'Invalid email'] },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        match: [/^([a-zA-Z]+)@([a-zA-Z]+)\.([a-zA-Z]+)$/i, 'Invalid email']
+    },
     hashedPassword: { type: String, required: true },
-    gender: { type: String, required: true },
+    gender: { type: String, required: true, enum: [ 'male', 'female' ] },
     trips: { type: [Types.ObjectId], ref: 'Trip', default: [] }
 
 });

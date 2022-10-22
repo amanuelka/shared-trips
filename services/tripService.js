@@ -8,6 +8,10 @@ async function getAll() {
     return Trip.find({}).lean();
 }
 
+async function getOwn(userId) {
+    return Trip.find({ creator: userId }).populate('creator').lean();
+}
+
 async function getById(id) {
     return Trip.findById(id).lean();
 }
@@ -30,4 +34,14 @@ async function update(id, trip) {
     await existing.save();
 }
 
-module.exports = { create, getById, getByIdPopulated, getAll, update };
+async function deleteById(id) {
+    return Trip.findByIdAndDelete(id);
+}
+
+async function joinTrip(tripId, userId) {
+    const trip = await Trip.findById(tripId);
+    trip.buddies.push(userId);
+    await trip.save();
+}
+
+module.exports = { create, getById, getByIdPopulated, getAll, getOwn, update, deleteById, joinTrip };

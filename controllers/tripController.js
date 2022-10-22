@@ -1,7 +1,7 @@
 const { hasUser, isOwner } = require('../middlewares/guards');
 const { parseError } = require('../middlewares/parsers');
 const preload = require('../middlewares/preloader');
-const { create, update } = require('../services/tripService');
+const { create, update, deleteById, joinTrip } = require('../services/tripService');
 
 const tripController = require('express').Router();
 
@@ -23,10 +23,13 @@ tripController.post('/create', hasUser(), async (req, res) => {
 });
 
 tripController.get('/:id', preload(true), async (req, res) => {
-    
+    const trip = res.locals.trip;
+    trip.remainingSeats = trip.seats - trip.buddies.length;
+    trip.buddiesList = trip.buddies.map(b => b.email).join(', ');
     if (req.user) {
-        res.locals.trip.isLogged = true;
-        res.locals.trip.isOwner = req.user._id == res.locals.trip.creator._id;
+        trip.isLogged = true;
+        trip.isOwner = req.user._id == trip.creator._id;
+        trip.isJoined = trip.buddies.some(b => b._id == req.user._id);
     }
     res.render('details');
 });
@@ -57,6 +60,16 @@ tripController.post('/:id/edit', hasUser(), preload(), isOwner(), async (req, re
         trip._id = id;
         res.render('edit', { errors: parseError(error), ...trip });
     }
+});
+
+tripController.get('/:id/delete', hasUser(), preload(), isOwner(), async (req, res) => {
+    await deleteById(req.params.id);
+    res.redirect('/trips');
+});
+
+tripController.get('/:id/join', hasUser(), async (req, res) => {
+    await joinTrip(req.params.id, req.user._id);
+    res.redirect(`/trip/${req.params.id}`);
 });
 
 module.exports = tripController;

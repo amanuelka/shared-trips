@@ -1,4 +1,5 @@
-const { getAll } = require('../services/tripService');
+const { hasUser } = require('../middlewares/guards');
+const { getAll, getOwn } = require('../services/tripService');
 
 const homeController = require('express').Router();
 
@@ -11,7 +12,11 @@ homeController.get('/trips', async (req, res) => {
     res.render('trips', { trips });
 });
 
-homeController.get('/profile', (req, res) => {
+homeController.get('/profile', hasUser(), async (req, res) => {
+    const trips = await getOwn(res.locals.user._id);
+    res.locals.user.tripsCount = trips.length;
+    res.locals.user.trips = trips;
+    console.log(req.user.gender);
     res.render('profile');
 });
 
