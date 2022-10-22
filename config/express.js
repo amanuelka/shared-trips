@@ -17,4 +17,4 @@ module.exports = (app) => {
     app.use(cookieParser());
     app.use(session());
     app.use(trimBody('password'));
-}
+};

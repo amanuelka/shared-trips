@@ -1,11 +1,14 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const userSchema = new Schema({
-    username: { type: String, required: true, unique: true, minlength: [3, 'Username must be at least 3 characters long'] },
-    hashedPassword: { type: String, required: true }
+    email: { type: String, required: true, unique: true, match: [/^([a-zA-Z]+)@([a-zA-Z]+)\.([a-zA-Z]+)$/i, 'Invalid email'] },
+    hashedPassword: { type: String, required: true },
+    gender: { type: String, required: true },
+    trips: { type: [Types.ObjectId], ref: 'Trip', default: [] }
+
 });
 
-userSchema.index({ username: 1, }, {
+userSchema.index({ email: 1, }, {
     collation: {
         locale: 'en',
         strength: 2
