@@ -40,25 +40,11 @@ tripController.get('/:id/edit', hasUser(), preload(), isOwner(), (req, res) => {
 });
 
 tripController.post('/:id/edit', hasUser(), preload(), isOwner(), async (req, res) => {
-    const id = req.params.id;
-    const trip = {
-        start: req.body.start,
-        end: req.body.end,
-        date: req.body.date,
-        time: req.body.time,
-        image: req.body.image,
-        brand: req.body.brand,
-        seats: req.body.seats,
-        price: req.body.price,
-        description: req.body.description
-    };
-
     try {
-        await update(id, trip);
-        res.redirect(`/trip/${id}`);
+        await update(req.params.id, { ...req.body, _id: req.params.id });
+        res.redirect(`/trip/${req.params.id}`);
     } catch (error) {
-        trip._id = id;
-        res.render('edit', { errors: parseError(error), ...trip });
+        res.render('edit', { errors: parseError(error), ...req.body });
     }
 });
 

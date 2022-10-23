@@ -22,15 +22,7 @@ async function getByIdPopulated(id) {
 
 async function update(id, trip) {
     const existing = await Trip.findById(id);
-    existing.start = trip.start;
-    existing.end = trip.end;
-    existing.date = trip.date;
-    existing.time = trip.time;
-    existing.image = trip.image;
-    existing.brand = trip.brand;
-    existing.seats = trip.seats;
-    existing.price = trip.price;
-    existing.description = trip.description;
+    Object.assign(existing, trip);
     await existing.save();
 }
 
