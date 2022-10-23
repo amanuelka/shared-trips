@@ -1,4 +1,3 @@
-{{#with trip}}
 <section class="py-5 details" id="trip-details-page">
     <div class="container">
         <div class="destination">
@@ -35,7 +34,7 @@
                 <textarea class="lead" disabled>{{description}}</textarea>
                 <h5>Price: <span class="lead">{{price}}</span> BGN</h5>
 
-                {{#if isLogged}}
+                {{#if email}}
                     <div class="actions">
                     {{#if isOwner}}
                         <a href="/trip/{{_id}}/delete" class="btn btn-danger">Delete this trip</a>
@@ -57,4 +56,3 @@
         </div>
     </div>
 </section>
-{{/with}}

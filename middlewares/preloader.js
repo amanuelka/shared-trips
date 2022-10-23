@@ -1,14 +1,8 @@
-const { getById, getByIdPopulated } = require('../services/tripService');
+const { getById } = require('../services/tripService');
 
-function preload(populate) {
+function preload() {
     return async function (req, res, next) {
-        const id = req.params.id;
-        if (populate) {
-            res.locals.trip = await getByIdPopulated(id);
-        } else {
-            res.locals.trip = await getById(id);
-        }
-
+        res.locals.trip = await getById(req.params.id);
         next();
     };
 }
