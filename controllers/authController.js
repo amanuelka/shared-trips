@@ -10,7 +10,6 @@ authController.get('/register', isGuest(), (req, res) => {
 
 authController.post('/register', isGuest(), async (req, res) => {
     try {
-        console.log(req.body);
         if (Object.values(req.body).some(v => !v)) {
             throw new Error('All fields are required');
         }

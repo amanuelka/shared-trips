@@ -17,7 +17,7 @@ async function getByIdPopulated(id) {
 }
 
 async function getOwn(userId) {
-    return Trip.find({ creator: userId }).populate('creator', 'gender').lean();
+    return Trip.find({ creator: userId }).lean();
 }
 
 async function update(id, trip) {

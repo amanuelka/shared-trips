@@ -34,8 +34,8 @@ async function login(email, password) {
     return createSession(user);
 }
 
-function createSession({ _id, email }) {
-    const payload = { _id, email };
+function createSession({ _id, email, gender }) {
+    const payload = { _id, email, gender };
 
     return jwt.sign(payload, JWT_SECRET);
 }
