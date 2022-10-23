@@ -13,11 +13,9 @@ homeController.get('/trips', async (req, res) => {
 });
 
 homeController.get('/profile', hasUser(), async (req, res) => {
-    const trips = await getOwn(res.locals.user._id);
-    res.locals.user.tripsCount = trips.length;
-    res.locals.user.trips = trips;
-    console.log(req.user.gender);
-    res.render('profile');
+    const trips = await getOwn(req.user._id);
+    const gender = trips.map(t => t.creator.gender)[0];
+    res.render('profile', { trips, gender });
 });
 
 

@@ -9,7 +9,7 @@ async function getAll() {
 }
 
 async function getOwn(userId) {
-    return Trip.find({ creator: userId }).populate('creator').lean();
+    return Trip.find({ creator: userId }).populate('creator', 'gender').lean();
 }
 
 async function getById(id) {
